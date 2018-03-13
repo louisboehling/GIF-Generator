@@ -1,0 +1,22 @@
+.buttonContainer {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.searchButton {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.gifContainer {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+button {
+    margin: 0px 10px 10px 0px;
+} 
+
+img {
+    margin: 10px;
+}
