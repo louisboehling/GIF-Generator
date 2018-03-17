@@ -1,12 +1,37 @@
-var animals = ["cat", "dog", "mouse", "horse", "cow", "pig", "sheep", "snake", "iguana"]
+var animals = ["cat", "dog", "mouse", "horse", "cow", "pig", "sheep", "snake", "iguana", "buffalo", "shark", "dolphin", "whale", "kitten", "puppy", "chicken"]
 
 console.log(animals);
 
-//makes buttons
+function display() {
+    var animalButton = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animalButton + "&api_key=dc6zaTOxFJmzC&limit=10";
+    console.log(queryURL);
+
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+        }).then(function(response) {
+        console.log(response);
+    
+        var results = response.data;
+        for (var i=0; i < results.length; i++) {
+            var gifDiv = $("<div>");
+            var gifImage = $("<img>");
+            gifImage.attr("src", results[i].images.fixed_height.url);
+            gifDiv.append(gifImage);
+            $(".gifContainer").prepend(gifDiv);
+        }
+    });
+}
+
+display();
+
+// makes buttons 
 
 function makeButtons() {
     for (var i = 0; i < animals.length; i++) {
         var a = $("<button>");
+        a.attr("id", "topic");
         a.attr("data-name", animals[i]);
         a.text(animals[i]);
         $(".buttonContainer").append(a);
@@ -15,7 +40,7 @@ function makeButtons() {
 
 makeButtons();
 
-//makes buttons from searched term
+// makes buttons grab the input 
 
 $("#search").on("click", function(event) {
     event.preventDefault();
@@ -26,33 +51,7 @@ $("#search").on("click", function(event) {
     console.log(animals);
 });
 
-//makes the buttons grab the query URL
+// dispalys gifs 
 
-$("button").on("click", function() {
-    var animalButton = $(this).attr("data-name");
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animalButton + "&api_key=dc6zaTOxFJmzC&limit=10";
-    console.log(queryURL);
-
-    // sets up the giphy api
-
-$.ajax({
-    url: queryURL,
-    method: 'GET'
-    }).then(function(response) {
-    console.log(response);
-
-    var results = response.data;
-    for (var i=0; i < results.length; i++) {
-        var gifDiv = $("<div>");
-        var gifImage = $("<img>");
-        gifImage.attr("src", results[i].images.fixed_height.url);
-        gifDiv.append(gifImage);
-        $(".gifContainer").prepend(gifDiv);
-    }
-});
-})
-
-
-
-
+$(document).on("click", "#topic", display);
 
